@@ -9,7 +9,7 @@
   "inlineSpriteFrames": true,
   "inlineSpriteFrames_native": true,
   "jailbreakPlatform": false,
-  "md5Cache": false,
+  "md5Cache": true,
   "mergeStartScene": false,
   "oauthLoginServer": "",
   "optimizeHotUpdate": false,
@@ -26,15 +26,15 @@
     "orientation": "portrait"
   },
   "renderMode": "0",
-  "startScene": "",
+  "startScene": "f6f6a998-0b7b-473d-b67e-c24cc9938b5a",
   "title": "MainGame",
   "webOrientation": "auto",
   "wechatgame": {
     "REMOTE_SERVER_ROOT": "",
-    "appid": "wx6ac3f5090a6b99c5",
+    "appid": "wxfa69e8f6dd9b87b6",
     "isSubdomain": false,
     "orientation": "portrait",
-    "subContext": ""
+    "subContext": "SubGame"
   },
   "xxteaKey": "55ffaad9-51d2-48",
   "zipCompressJs": true

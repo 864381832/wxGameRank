@@ -15,15 +15,15 @@ cc.Class({
         if (window.wx != undefined) {
             window.wx.onMessage(data => {
                 cc.log("接收主域发来消息：", data)
-                if (data.messageType == 0) {
+                if (data.messageType == 0) {//移除排行榜
                     this.removeChild();
-                } else if (data.messageType == 1) {
+                } else if (data.messageType == 1) {//获取好友排行榜
                     this.fetchFriendData(data.MAIN_MENU_NUM);
-                } else if (data.messageType == 3) {
+                } else if (data.messageType == 3) {//提交得分
                     this.submitScore(data.MAIN_MENU_NUM, data.score);
-                } else if (data.messageType == 4) {
+                } else if (data.messageType == 4) {//获取好友排行榜横向排列展示模式
                     this.gameOverRank(data.MAIN_MENU_NUM);
-                } else if (data.messageType == 5) {
+                } else if (data.messageType == 5) {//获取群排行榜
                     this.fetchGroupFriendData(data.MAIN_MENU_NUM, data.shareTicket);
                 }
             });
@@ -36,7 +36,7 @@ cc.Class({
         if (window.wx != undefined) {
             window.wx.getUserCloudStorage({
                 // 以key/value形式存储
-                keyList: ["x" + MAIN_MENU_NUM],
+                keyList: [MAIN_MENU_NUM],
                 success: function (getres) {
                     console.log('getUserCloudStorage', 'success', getres)
                     if (getres.KVDataList.length != 0) {
@@ -46,7 +46,7 @@ cc.Class({
                     }
                     // 对用户托管数据进行写数据操作
                     window.wx.setUserCloudStorage({
-                        KVDataList: [{key: "x" + MAIN_MENU_NUM, value: "" + score}],
+                        KVDataList: [{key: MAIN_MENU_NUM, value: "" + score}],
                         success: function (res) {
                             console.log('setUserCloudStorage', 'success', res)
                         },
@@ -90,7 +90,7 @@ cc.Class({
                     let userData = userRes.data[0];
                     //取出所有好友数据
                     wx.getFriendCloudStorage({
-                        keyList: ["x" + MAIN_MENU_NUM],
+                        keyList: [MAIN_MENU_NUM],
                         success: res => {
                             console.log("wx.getFriendCloudStorage success", res);
                             let data = res.data;
@@ -129,42 +129,6 @@ cc.Class({
                     this.loadingLabel.string = "数据加载失败，请检测网络，谢谢。";
                 }
             });
-        } else {
-            let userData = {nickname: "徐小燕11"};
-            let data = new Array();
-            for (let i = 0; i < 12; i++) {
-                data[i] = {
-                    KVDataList: [{key: "x1", value: "12" + i}],
-                    avatarUrl: "https://wx.qlogo.cn/mmopen/vi_32/9h9G1VucURhfeXmbIicrXRnuJAvxdBfAC3xeSvfvjsYAfhJahJvU9ic2dTUpn5icLich8QDGeB0ojwUWfJia16O1yXQ/132",
-                    nickname: "徐小燕" + i,
-                    openid: "sadfsdg" + i
-                }
-            }
-            data.sort((a, b) => {
-                if (a.KVDataList.length == 0 && b.KVDataList.length == 0) {
-                    return 0;
-                }
-                if (a.KVDataList.length == 0) {
-                    return 1;
-                }
-                if (b.KVDataList.length == 0) {
-                    return -1;
-                }
-                return b.KVDataList[0].value - a.KVDataList[0].value;
-            });
-            for (let i = 0; i < data.length; i++) {
-                // this.drawRankItem(i,data[i]);
-                let playerInfo = data[i];
-                let item = cc.instantiate(this.prefabRankItem);
-                item.getComponent('RankItem').init(i, playerInfo);
-                this.scrollViewContent.addChild(item);
-                if (data[i].nickname == userData.nickname) {
-                    let userItem = cc.instantiate(this.prefabRankItem);
-                    userItem.getComponent('RankItem').init(i, playerInfo);
-                    userItem.y = -354;
-                    this.node.addChild(userItem);
-                }
-            }
         }
     },
     fetchGroupFriendData(MAIN_MENU_NUM, shareTicket) {
@@ -179,7 +143,7 @@ cc.Class({
                     //取出所有好友数据
                     wx.getGroupCloudStorage({
                         shareTicket: shareTicket,
-                        keyList: ["x" + MAIN_MENU_NUM],
+                        keyList: [MAIN_MENU_NUM],
                         success: res => {
                             console.log("wx.getGroupCloudStorage success", res);
                             this.loadingLabel.active = false;
@@ -219,42 +183,6 @@ cc.Class({
                     this.loadingLabel.string = "数据加载失败，请检测网络，谢谢。";
                 }
             });
-        } else {
-            let userData = {nickname: "徐小燕11"};
-            let data = new Array();
-            for (let i = 0; i < 12; i++) {
-                data[i] = {
-                    KVDataList: [{key: "x1", value: "12" + i}],
-                    avatarUrl: "https://wx.qlogo.cn/mmopen/vi_32/9h9G1VucURhfeXmbIicrXRnuJAvxdBfAC3xeSvfvjsYAfhJahJvU9ic2dTUpn5icLich8QDGeB0ojwUWfJia16O1yXQ/132",
-                    nickname: "徐小燕" + i,
-                    openid: "sadfsdg" + i
-                }
-            }
-            data.sort((a, b) => {
-                if (a.KVDataList.length == 0 && b.KVDataList.length == 0) {
-                    return 0;
-                }
-                if (a.KVDataList.length == 0) {
-                    return 1;
-                }
-                if (b.KVDataList.length == 0) {
-                    return -1;
-                }
-                return b.KVDataList[0].value - a.KVDataList[0].value;
-            });
-            for (let i = 0; i < data.length; i++) {
-                // this.drawRankItem(i,data[i]);
-                let playerInfo = data[i];
-                let item = cc.instantiate(this.prefabRankItem);
-                item.getComponent('RankItem').init(i, playerInfo);
-                this.scrollViewContent.addChild(item);
-                if (data[i].nickname == userData.nickname) {
-                    let userItem = cc.instantiate(this.prefabRankItem);
-                    userItem.getComponent('RankItem').init(i, playerInfo);
-                    userItem.y = -354;
-                    this.node.addChild(userItem);
-                }
-            }
         }
     },
 
@@ -269,7 +197,7 @@ cc.Class({
                     let userData = userRes.data[0];
                     //取出所有好友数据
                     wx.getFriendCloudStorage({
-                        keyList: ["x" + MAIN_MENU_NUM],
+                        keyList: [MAIN_MENU_NUM],
                         success: res => {
                             cc.log("wx.getFriendCloudStorage success", res);
                             this.loadingLabel.active = false;
@@ -330,63 +258,6 @@ cc.Class({
                     this.loadingLabel.string = "数据加载失败，请检测网络，谢谢。";
                 }
             });
-        } else {
-            let userData = {nickname: "徐小燕2"};
-            let data = new Array();
-            for (let i = 0; i < 6; i++) {
-                data[i] = {
-                    KVDataList: [{key: "x1", value: "12" + i}],
-                    avatarUrl: "https://wx.qlogo.cn/mmopen/vi_32/9h9G1VucURhfeXmbIicrXRnuJAvxdBfAC3xeSvfvjsYAfhJahJvU9ic2dTUpn5icLich8QDGeB0ojwUWfJia16O1yXQ/132",
-                    nickname: "徐小燕" + i,
-                    openid: "sadfsdg" + i
-                }
-            }
-            data.sort((a, b) => {
-                if (a.KVDataList.length == 0 && b.KVDataList.length == 0) {
-                    return 0;
-                }
-                if (a.KVDataList.length == 0) {
-                    return 1;
-                }
-                if (b.KVDataList.length == 0) {
-                    return -1;
-                }
-                return b.KVDataList[0].value - a.KVDataList[0].value;
-            });
-            for (let i = 0; i < data.length; i++) {
-                if (data[i].nickname == userData.nickname) {
-                    if ((i - 1) >= 0) {
-                        if ((i + 1) >= data.length && (i - 2) >= 0) {
-                            let userItem = cc.instantiate(this.prefabGameOverRank);
-                            userItem.getComponent('GameOverRank').init(i - 2, data[i - 2]);
-                            this.gameOverRankLayout.addChild(userItem);
-                        }
-                        let userItem = cc.instantiate(this.prefabGameOverRank);
-                        userItem.getComponent('GameOverRank').init(i - 1, data[i - 1]);
-                        this.gameOverRankLayout.addChild(userItem);
-                    } else {
-                        if ((i + 2) >= data.length) {
-                            let node = new cc.Node();
-                            node.width = 200;
-                            this.gameOverRankLayout.addChild(node);
-                        }
-                    }
-                    let userItem = cc.instantiate(this.prefabGameOverRank);
-                    userItem.getComponent('GameOverRank').init(i, data[i], true);
-                    // userItem.y = -354;
-                    this.gameOverRankLayout.addChild(userItem);
-                    if ((i + 1) < data.length) {
-                        let userItem = cc.instantiate(this.prefabGameOverRank);
-                        userItem.getComponent('GameOverRank').init(i + 1, data[i + 1]);
-                        this.gameOverRankLayout.addChild(userItem);
-                        if ((i - 1) < 0 && (i + 2) < data.length) {
-                            let userItem = cc.instantiate(this.prefabGameOverRank);
-                            userItem.getComponent('GameOverRank').init(i + 2, data[i + 2]);
-                            this.gameOverRankLayout.addChild(userItem);
-                        }
-                    }
-                }
-            }
         }
     },
 });

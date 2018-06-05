@@ -14,8 +14,10 @@ wxGameRank是使用Cocos Creator创建的微信小游戏子域排行榜显示示
 
 <img src="https://gitee.com/xwintop/wxGameRank/raw/master/images/love2048.jpg" width="400" height="400" alt="浪漫2048小游戏二维码"/>
 
+#### 完整的上线版微信小游戏示例程序源码：
+**gitee地址：**[OnYourSister](https://gitee.com/xwintop/OnYourSister)
 
-项目截图如下：
+#### 项目截图如下：
 
 ![输入图片说明](https://gitee.com/xwintop/wxGameRank/raw/master/images/x1.png "好友排行截图")
 ![输入图片说明](https://gitee.com/xwintop/wxGameRank/raw/master/images/x2.png "好友横向排行截图")

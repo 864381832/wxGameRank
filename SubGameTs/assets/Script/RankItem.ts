@@ -1,18 +1,24 @@
-cc.Class({
-    extends: cc.Component,
-    name: "RankItem",
-    properties: {
-        backSprite: cc.Node,
-        rankLabel: cc.Label,
-        avatarImgSprite: cc.Sprite,
-        nickLabel: cc.Label,
-        topScoreLabel: cc.Label,
-    },
+const {ccclass, property} = cc._decorator;
+
+@ccclass
+export default class RankItem extends cc.Component {
+
+    @property(cc.Node)
+    backSprite: cc.Node = null;
+    @property(cc.Label)
+    rankLabel: cc.Label = null;
+    @property(cc.Sprite)
+    avatarImgSprite: cc.Sprite = null;
+    @property(cc.Label)
+    nickLabel: cc.Label = null;
+    @property(cc.Label)
+    topScoreLabel: cc.Label = null;
+
     start() {
 
-    },
+    }
 
-    init: function (rank, data) {
+    init(rank, data) {
         let avatarUrl = data.avatarUrl;
         // let nick = data.nickname.length <= 10 ? data.nickname : data.nickname.substr(0, 10) + "...";
         let nick = data.nickname;
@@ -36,7 +42,8 @@ cc.Class({
         this.createImage(avatarUrl);
         this.nickLabel.string = nick;
         this.topScoreLabel.string = grade.toString();
-    },
+    }
+
     createImage(avatarUrl) {
         if (CC_WECHATGAME) {
             try {
@@ -53,7 +60,7 @@ cc.Class({
                     }
                 };
                 image.src = avatarUrl;
-            }catch (e) {
+            } catch (e) {
                 cc.log(e);
                 this.avatarImgSprite.node.active = false;
             }
@@ -65,5 +72,4 @@ cc.Class({
             });
         }
     }
-
-});
+}

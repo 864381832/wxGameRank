@@ -9,7 +9,7 @@
   "inlineSpriteFrames": true,
   "inlineSpriteFrames_native": true,
   "jailbreakPlatform": false,
-  "md5Cache": true,
+  "md5Cache": false,
   "mergeStartScene": false,
   "oauthLoginServer": "",
   "optimizeHotUpdate": false,
@@ -19,7 +19,7 @@
     "portrait": false,
     "upsideDown": false
   },
-  "packageName": "org.cocos2d.MainGame",
+  "packageName": "org.cocos2d.helloworld",
   "privateKey": "",
   "qqplay": {
     "REMOTE_SERVER_ROOT": "",
@@ -27,15 +27,15 @@
   },
   "renderMode": "0",
   "startScene": "f6f6a998-0b7b-473d-b67e-c24cc9938b5a",
-  "title": "MainGame",
+  "title": "MainGameTs",
   "webOrientation": "auto",
   "wechatgame": {
     "REMOTE_SERVER_ROOT": "",
     "appid": "wx6ac3f5090a6b99c5",
     "isSubdomain": false,
     "orientation": "portrait",
-    "subContext": "SubGame"
+    "subContext": "SubGameTs"
   },
-  "xxteaKey": "55ffaad9-51d2-48",
+  "xxteaKey": "d02b90a0-b312-47",
   "zipCompressJs": true
 }

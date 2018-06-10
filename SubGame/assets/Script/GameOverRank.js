@@ -30,7 +30,7 @@ cc.Class({
         this.topScoreLabel.string = grade.toString();
     },
     createImage(avatarUrl) {
-        if (window.wx != undefined) {
+        if (CC_WECHATGAME) {
             try {
                 let image = wx.createImage();
                 image.onload = () => {

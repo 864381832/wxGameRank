@@ -1,18 +1,24 @@
-cc.Class({
-    extends: cc.Component,
-    name: "RankItem",
-    properties: {
-        backSprite: cc.Node,
-        rankLabel: cc.Label,
-        avatarImgSprite: cc.Sprite,
-        nickLabel: cc.Label,
-        topScoreLabel: cc.Label,
-    },
+const {ccclass, property} = cc._decorator;
+
+@ccclass
+export default class GameOverRank extends cc.Component {
+
+    @property(cc.Node)
+    backSprite: cc.Node = null;
+    @property(cc.Label)
+    rankLabel: cc.Label = null;
+    @property(cc.Sprite)
+    avatarImgSprite: cc.Sprite = null;
+    @property(cc.Label)
+    nickLabel: cc.Label = null;
+    @property(cc.Label)
+    topScoreLabel: cc.Label = null;
+
     start() {
 
-    },
+    }
 
-    init: function (rank, data) {
+    init(rank, data, isPlayer) {
         let avatarUrl = data.avatarUrl;
         // let nick = data.nickname.length <= 10 ? data.nickname : data.nickname.substr(0, 10) + "...";
         let nick = data.nickname;
@@ -21,22 +27,15 @@ cc.Class({
         if (rank % 2 == 0) {
             this.backSprite.color = new cc.Color(55, 55, 55, 255);
         }
-
-        if (rank == 0) {
-            this.rankLabel.node.color = new cc.Color(255, 0, 0, 255);
-            this.rankLabel.node.setScale(2);
-        } else if (rank == 1) {
-            this.rankLabel.node.color = new cc.Color(255, 255, 0, 255);
-            this.rankLabel.node.setScale(1.6);
-        } else if (rank == 2) {
-            this.rankLabel.node.color = new cc.Color(100, 255, 0, 255);
-            this.rankLabel.node.setScale(1.3);
+        if (isPlayer) {
+            this.rankLabel.node.color = new cc.Color(0, 255, 0, 255);
         }
         this.rankLabel.string = (rank + 1).toString();
         this.createImage(avatarUrl);
         this.nickLabel.string = nick;
         this.topScoreLabel.string = grade.toString();
-    },
+    }
+
     createImage(avatarUrl) {
         if (CC_WECHATGAME) {
             try {
@@ -53,7 +52,7 @@ cc.Class({
                     }
                 };
                 image.src = avatarUrl;
-            }catch (e) {
+            } catch (e) {
                 cc.log(e);
                 this.avatarImgSprite.node.active = false;
             }
@@ -65,5 +64,4 @@ cc.Class({
             });
         }
     }
-
-});
+}

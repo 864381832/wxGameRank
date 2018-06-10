@@ -1,14 +1,20 @@
-cc.Class({
-    extends: cc.Component,
+const {ccclass, property} = cc._decorator;
 
-    properties: {
-        rankingScrollView: cc.ScrollView,
-        scrollViewContent: cc.Node,
-        prefabRankItem: cc.Prefab,
-        prefabGameOverRank: cc.Prefab,
-        gameOverRankLayout: cc.Node,
-        loadingLabel: cc.Node,//加载文字
-    },
+@ccclass
+export default class GameRankingList extends cc.Component {
+
+    @property(cc.ScrollView)
+    rankingScrollView: cc.ScrollView = null;
+    @property(cc.Node)
+    scrollViewContent: cc.Node = null;
+    @property(cc.Prefab)
+    prefabRankItem: cc.Prefab = null;
+    @property(cc.Prefab)
+    prefabGameOverRank: cc.Prefab = null;
+    @property(cc.Node)
+    gameOverRankLayout: cc.Node = null;
+    @property(cc.Node)
+    loadingLabel: cc.Node = null;//加载文字
 
     start() {
         this.removeChild();
@@ -31,7 +37,8 @@ cc.Class({
             this.fetchFriendData(1000);
             // this.gameOverRank(1000);
         }
-    },
+    }
+
     submitScore(MAIN_MENU_NUM, score) { //提交得分
         if (CC_WECHATGAME) {
             window.wx.getUserCloudStorage({
@@ -68,7 +75,8 @@ cc.Class({
         } else {
             cc.log("提交得分:" + MAIN_MENU_NUM + " : " + score)
         }
-    },
+    }
+
     removeChild() {
         this.node.removeChildByTag(1000);
         this.rankingScrollView.node.active = false;
@@ -77,7 +85,8 @@ cc.Class({
         this.gameOverRankLayout.removeAllChildren();
         this.loadingLabel.getComponent(cc.Label).string = "玩命加载中...";
         this.loadingLabel.active = true;
-    },
+    }
+
     fetchFriendData(MAIN_MENU_NUM) {
         this.removeChild();
         this.rankingScrollView.node.active = true;
@@ -130,7 +139,8 @@ cc.Class({
                 }
             });
         }
-    },
+    }
+
     fetchGroupFriendData(MAIN_MENU_NUM, shareTicket) {
         this.removeChild();
         this.rankingScrollView.node.active = true;
@@ -184,7 +194,7 @@ cc.Class({
                 }
             });
         }
-    },
+    }
 
     gameOverRank(MAIN_MENU_NUM) {
         this.removeChild();
@@ -259,5 +269,5 @@ cc.Class({
                 }
             });
         }
-    },
-});
+    }
+}

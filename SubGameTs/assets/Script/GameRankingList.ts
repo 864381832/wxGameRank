@@ -127,6 +127,10 @@ export default class GameRankingList extends cc.Component {
                                     this.node.addChild(userItem, 1, 1000);
                                 }
                             }
+                            if (data.length <= 8) {
+                                let layout = this.scrollViewContent.getComponent(cc.Layout);
+                                layout.resizeMode = cc.Layout.ResizeMode.NONE;
+                            }
                         },
                         fail: res => {
                             console.log("wx.getFriendCloudStorage fail", res);
@@ -181,6 +185,10 @@ export default class GameRankingList extends cc.Component {
                                     userItem.y = -354;
                                     this.node.addChild(userItem, 1, 1000);
                                 }
+                            }
+                            if (data.length <= 8) {
+                                let layout = this.scrollViewContent.getComponent(cc.Layout);
+                                layout.resizeMode = cc.Layout.ResizeMode.NONE;
                             }
                         },
                         fail: res => {

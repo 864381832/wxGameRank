@@ -3,6 +3,8 @@
 
 **GitHub地址：**[wxGameRank](https://github.com/864381832/wxGameRank)
 
+### 微信小游戏开发交流QQ群：[805415449](https://jq.qq.com/?_wv=1027&k=5ffzEIT)
+
 wxGameRank是使用Cocos Creator创建的微信小游戏子域排行榜显示示例，此示例中包含好友排行榜列表、群排行榜列表、上传得分、横向排行展示等功能，可直接打包子项目使用。
 
 #### 环境搭建说明：

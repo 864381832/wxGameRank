@@ -13,9 +13,13 @@ wxGameRank是使用Cocos Creator创建的微信小游戏子域排行榜显示示
 - 微信开发工具调试基础库2.0.6；
 
 ### 开发指南
-- MainGame为主示例工程JavaScript版本，MainGameTs为主示例工程TypeScript版本
+- MainGame为主示例工程JavaScript版本，MainGameTs为主示例工程TypeScript版本(creator 1.x版本)
 
-- SubGame为子域排行榜工程JavaScript版本，SubGameTs为子域排行榜工程TypeScript版本
+- SubGame为子域排行榜工程JavaScript版本，SubGameTs为子域排行榜工程TypeScript版本(creator 1.x版本)
+
+- MainGameTs2为主示例工程TypeScript版本(creator 2.x版本)
+
+- SubGameTs2为子域排行榜工程TypeScript版本(creator 2.x版本)
 
 #### 如有疑问可加QQ讨论：[1277032935](http://wpa.qq.com/msgrd?v=3&uin=1277032935&site=qq&menu=yes)
 

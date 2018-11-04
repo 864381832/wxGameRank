@@ -27,22 +27,22 @@
     "portrait": false,
     "upsideDown": false
   },
-  "packageName": "org.cocos2d.helloworld",
+  "packageName": "org.cocos2d.MainGame",
   "privateKey": "",
   "qqplay": {
     "REMOTE_SERVER_ROOT": "",
     "orientation": "portrait"
   },
-  "startScene": "4310f31a-7e48-409a-999c-178cc5fca562",
-  "title": "SubGameTs2",
+  "startScene": "f6f6a998-0b7b-473d-b67e-c24cc9938b5a",
+  "title": "MainGame2",
   "webOrientation": "auto",
   "wechatgame": {
     "REMOTE_SERVER_ROOT": "",
     "appid": "",
-    "isSubdomain": true,
+    "isSubdomain": false,
     "orientation": "portrait",
-    "subContext": ""
+    "subContext": "SubGame2"
   },
-  "xxteaKey": "b899fe9c-df6b-42",
+  "xxteaKey": "55ffaad9-51d2-48",
   "zipCompressJs": true
 }

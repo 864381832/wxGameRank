@@ -1,28 +1,21 @@
-const {ccclass, property} = cc._decorator;
-@ccclass
-export default class GameRankingList extends cc.Component {
+cc.Class({
+    extends: cc.Component,
 
-    @property(cc.ScrollView)
-    rankingScrollView: cc.ScrollView = null;
-    @property(cc.Node)
-    scrollViewContent: cc.Node = null;
-    @property(cc.Prefab)
-    prefabRankItem: cc.Prefab = null;
-    @property(cc.Prefab)
-    prefabGameOverRank: cc.Prefab = null;
-    @property(cc.Node)
-    gameOverRankLayout: cc.Node = null;
-    @property(cc.Node)
-    loadingLabel: cc.Node = null;//加载文字
-
-    CC_WECHATGAME: boolean = true;
+    properties: {
+        rankingScrollView: cc.ScrollView,
+        scrollViewContent: cc.Node,
+        prefabRankItem: cc.Prefab,
+        prefabGameOverRank: cc.Prefab,
+        gameOverRankLayout: cc.Node,
+        loadingLabel: cc.Node,//加载文字
+    },
 
     start() {
         this.removeChild();
-        console.log(this.CC_WECHATGAME);
+        this.CC_WECHATGAME = true;
         if (this.CC_WECHATGAME) {
             window.wx.onMessage(data => {
-                cc.log("接收主域发来消息：", data);
+                cc.log("接收主域发来消息：", data)
                 if (data.messageType == 0) {//移除排行榜
                     this.removeChild();
                 } else if (data.messageType == 1) {//获取好友排行榜
@@ -39,8 +32,7 @@ export default class GameRankingList extends cc.Component {
             this.fetchFriendData(1000);
             // this.gameOverRank(1000);
         }
-    }
-
+    },
     submitScore(MAIN_MENU_NUM, score) { //提交得分
         if (this.CC_WECHATGAME) {
             window.wx.getUserCloudStorage({
@@ -77,8 +69,7 @@ export default class GameRankingList extends cc.Component {
         } else {
             cc.log("提交得分:" + MAIN_MENU_NUM + " : " + score)
         }
-    }
-
+    },
     removeChild() {
         if(this.node.getChildByName("1000") != null){
             this.node.removeChild(this.node.getChildByName("1000"));
@@ -89,8 +80,7 @@ export default class GameRankingList extends cc.Component {
         this.gameOverRankLayout.removeAllChildren();
         this.loadingLabel.getComponent(cc.Label).string = "玩命加载中...";
         this.loadingLabel.active = true;
-    }
-
+    },
     fetchFriendData(MAIN_MENU_NUM) {
         this.removeChild();
         this.rankingScrollView.node.active = true;
@@ -120,8 +110,8 @@ export default class GameRankingList extends cc.Component {
                                 return b.KVDataList[0].value - a.KVDataList[0].value;
                             });
                             for (let i = 0; i < data.length; i++) {
-                                let playerInfo = data[i];
-                                let item = cc.instantiate(this.prefabRankItem);
+                                var playerInfo = data[i];
+                                var item = cc.instantiate(this.prefabRankItem);
                                 item.getComponent('RankItem').init(i, playerInfo);
                                 this.scrollViewContent.addChild(item);
                                 if (data[i].avatarUrl == userData.avatarUrl) {
@@ -147,8 +137,7 @@ export default class GameRankingList extends cc.Component {
                 }
             });
         }
-    }
-
+    },
     fetchGroupFriendData(MAIN_MENU_NUM, shareTicket) {
         this.removeChild();
         this.rankingScrollView.node.active = true;
@@ -206,7 +195,7 @@ export default class GameRankingList extends cc.Component {
                 }
             });
         }
-    }
+    },
 
     gameOverRank(MAIN_MENU_NUM) {
         this.removeChild();
@@ -215,7 +204,7 @@ export default class GameRankingList extends cc.Component {
             wx.getUserInfo({
                 openIdList: ['selfOpenId'],
                 success: (userRes) => {
-                    cc.log('success', userRes.data);
+                    cc.log('success', userRes.data)
                     let userData = userRes.data[0];
                     //取出所有好友数据
                     wx.getFriendCloudStorage({
@@ -281,5 +270,5 @@ export default class GameRankingList extends cc.Component {
                 }
             });
         }
-    }
-}
+    },
+});

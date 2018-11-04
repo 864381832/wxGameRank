@@ -1,4 +1,12 @@
 {
+  "android-instant": {
+    "REMOTE_SERVER_ROOT": "",
+    "host": "",
+    "pathPattern": "",
+    "recordPath": "",
+    "scheme": "https",
+    "skipRecord": false
+  },
   "appKey": "",
   "appSecret": "",
   "encryptJs": true,
@@ -9,10 +17,10 @@
   "inlineSpriteFrames": true,
   "inlineSpriteFrames_native": true,
   "jailbreakPlatform": false,
-  "md5Cache": false,
+  "md5Cache": true,
   "mergeStartScene": false,
   "oauthLoginServer": "",
-  "optimizeHotUpdate": false,
+  "optimizeHotUpdate": true,
   "orientation": {
     "landscapeLeft": true,
     "landscapeRight": true,

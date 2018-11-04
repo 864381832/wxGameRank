@@ -34,7 +34,7 @@
     "orientation": "portrait"
   },
   "startScene": "4310f31a-7e48-409a-999c-178cc5fca562",
-  "title": "SubGameTs2",
+  "title": "SubGame2",
   "webOrientation": "auto",
   "wechatgame": {
     "REMOTE_SERVER_ROOT": "",
@@ -43,6 +43,6 @@
     "orientation": "portrait",
     "subContext": ""
   },
-  "xxteaKey": "b899fe9c-df6b-42",
+  "xxteaKey": "abe6d1b8-33e8-4e",
   "zipCompressJs": true
 }

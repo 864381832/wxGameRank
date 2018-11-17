@@ -41,8 +41,8 @@
     },
     "_scale": {
       "__type__": "cc.Vec3",
-      "x": 0.4380850893068243,
-      "y": 0.4380850893068243,
+      "x": 0.32151965326604875,
+      "y": 0.32151965326604875,
       "z": 1
     },
     "_quat": {
@@ -906,7 +906,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 350.01,
-      "height": 60
+      "height": 80
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -954,7 +954,7 @@
     "_string": "玩命加载中...",
     "_N$string": "玩命加载中...",
     "_fontSize": 60,
-    "_lineHeight": 60,
+    "_lineHeight": 80,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,

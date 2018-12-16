@@ -38,32 +38,11 @@ cc.Class({
         this.topScoreLabel.string = grade.toString();
     },
     createImage(avatarUrl) {
-        if (CC_WECHATGAME) {
-            try {
-                let image = wx.createImage();
-                image.onload = () => {
-                    try {
-                        let texture = new cc.Texture2D();
-                        texture.initWithElement(image);
-                        texture.handleLoadedTexture();
-                        this.avatarImgSprite.spriteFrame = new cc.SpriteFrame(texture);
-                    } catch (e) {
-                        cc.log(e);
-                        this.avatarImgSprite.node.active = false;
-                    }
-                };
-                image.src = avatarUrl;
-            }catch (e) {
-                cc.log(e);
-                this.avatarImgSprite.node.active = false;
-            }
-        } else {
-            cc.loader.load({
-                url: avatarUrl, type: 'jpg'
-            }, (err, texture) => {
-                this.avatarImgSprite.spriteFrame = new cc.SpriteFrame(texture);
-            });
-        }
+        cc.loader.load({
+            url: avatarUrl, type: 'jpg'
+        }, (err, texture) => {
+            this.avatarImgSprite.spriteFrame = new cc.SpriteFrame(texture);
+        });
     }
 
 });

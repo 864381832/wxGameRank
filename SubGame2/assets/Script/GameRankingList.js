@@ -7,6 +7,8 @@ cc.Class({
         prefabRankItem: cc.Prefab,
         prefabGameOverRank: cc.Prefab,
         gameOverRankLayout: cc.Node,
+        gameNextRankNode: cc.Node,
+        gameNextRankNode2: cc.Node,
         loadingLabel: cc.Node,//加载文字
     },
 
@@ -26,28 +28,42 @@ cc.Class({
                     this.gameOverRank(data.MAIN_MENU_NUM);
                 } else if (data.messageType == 5) {//获取群排行榜
                     this.fetchGroupFriendData(data.MAIN_MENU_NUM, data.shareTicket);
+                } else if (data.messageType == 6) {//获取即将超越
+                    this.gameNextRank(data.MAIN_MENU_NUM, data.score);
+                } else if (data.messageType == 7) {//获取即将超越2
+                    this.gameNextRank2(data.MAIN_MENU_NUM, data.score);
+                } else if (data.messageType == 10) {//世界排行榜数据
+                    this.fetchWorldData(data.worldData, data.userData);
                 }
             });
         } else {
-            this.fetchFriendData(1000);
+            // this.fetchFriendData(1000);
             // this.gameOverRank(1000);
+            // this.gameNextRank(1000, 120);
+            this.gameNextRank2(1000, 120);
         }
     },
     submitScore(MAIN_MENU_NUM, score) { //提交得分
         if (this.CC_WECHATGAME) {
             window.wx.getUserCloudStorage({
                 // 以key/value形式存储
-                keyList: [MAIN_MENU_NUM],
+                keyList: ["x" + MAIN_MENU_NUM],
                 success: function (getres) {
                     console.log('getUserCloudStorage', 'success', getres)
                     if (getres.KVDataList.length != 0) {
+                        window.wx.setUserCloudStorage({
+                            KVDataList: [{
+                                key: "Classic",
+                                value: "{\"wxgame\":{\"score\":" + (getres.KVDataList[0].value > score ? getres.KVDataList[0].value : score) + ",\"update_time\": " + Date.now() + "}}"
+                            }],
+                        });
                         if (getres.KVDataList[0].value > score) {
                             return;
                         }
                     }
                     // 对用户托管数据进行写数据操作
                     window.wx.setUserCloudStorage({
-                        KVDataList: [{key: MAIN_MENU_NUM, value: "" + score}],
+                        KVDataList: [{key: "x" + MAIN_MENU_NUM, value: "" + score}],
                         success: function (res) {
                             console.log('setUserCloudStorage', 'success', res)
                         },
@@ -71,13 +87,15 @@ cc.Class({
         }
     },
     removeChild() {
-        if(this.node.getChildByName("1000") != null){
+        if (this.node.getChildByName("1000") != null) {
             this.node.removeChild(this.node.getChildByName("1000"));
         }
         this.rankingScrollView.node.active = false;
         this.scrollViewContent.removeAllChildren();
         this.gameOverRankLayout.active = false;
         this.gameOverRankLayout.removeAllChildren();
+        this.gameNextRankNode.active = false;
+        this.gameNextRankNode2.active = false;
         this.loadingLabel.getComponent(cc.Label).string = "玩命加载中...";
         this.loadingLabel.active = true;
     },
@@ -93,7 +111,7 @@ cc.Class({
                     let userData = userRes.data[0];
                     //取出所有好友数据
                     wx.getFriendCloudStorage({
-                        keyList: [MAIN_MENU_NUM],
+                        keyList: ["x" + MAIN_MENU_NUM],
                         success: res => {
                             console.log("wx.getFriendCloudStorage success", res);
                             let data = res.data;
@@ -150,7 +168,7 @@ cc.Class({
                     //取出所有好友数据
                     wx.getGroupCloudStorage({
                         shareTicket: shareTicket,
-                        keyList: [MAIN_MENU_NUM],
+                        keyList: ["x" + MAIN_MENU_NUM],
                         success: res => {
                             console.log("wx.getGroupCloudStorage success", res);
                             this.loadingLabel.active = false;
@@ -208,7 +226,7 @@ cc.Class({
                     let userData = userRes.data[0];
                     //取出所有好友数据
                     wx.getFriendCloudStorage({
-                        keyList: [MAIN_MENU_NUM],
+                        keyList: ["x" + MAIN_MENU_NUM],
                         success: res => {
                             cc.log("wx.getFriendCloudStorage success", res);
                             this.loadingLabel.active = false;
@@ -270,5 +288,190 @@ cc.Class({
                 }
             });
         }
+    },
+
+    gameNextRank(MAIN_MENU_NUM, score) {
+        this.removeChild();
+        this.loadingLabel.active = false;
+        if (this.CC_WECHATGAME) {
+            if (score == 0) {
+                //取出所有好友数据
+                wx.getFriendCloudStorage({
+                    keyList: ["x" + MAIN_MENU_NUM],
+                    success: res => {
+                        console.log("wx.getFriendCloudStorage success", res);
+                        let data = res.data;
+                        data.sort((a, b) => {
+                            if (a.KVDataList.length == 0 && b.KVDataList.length == 0) {
+                                return 0;
+                            }
+                            if (a.KVDataList.length == 0) {
+                                return -1;
+                            }
+                            if (b.KVDataList.length == 0) {
+                                return 1;
+                            }
+                            return a.KVDataList[0].value - b.KVDataList[0].value;
+                        });
+                        this.gameNextRankData = data;
+                        for (let i = 0; i < data.length; i++) {
+                            if (data[i].KVDataList.length != 0 && score < data[i].KVDataList[0].value) {
+                                this.gameNextRankNode.active = true;
+                                this.gameNextRankNode.getComponent(cc.Component).init(data[i]);
+                                break;
+                            }
+                        }
+                    },
+                    fail: res => {
+                        console.log("wx.getFriendCloudStorage fail", res);
+                    },
+                });
+            } else {
+                if (this.gameNextRankData != undefined) {
+                    let data = this.gameNextRankData;
+                    for (let i = 0; i < data.length; i++) {
+                        if (data[i].KVDataList.length != 0 && score < data[i].KVDataList[0].value) {
+                            this.gameNextRankNode.active = true;
+                            this.gameNextRankNode.getComponent(cc.Component).init(data[i]);
+                            break;
+                        }
+                    }
+                } else {
+                    //取出所有好友数据
+                    wx.getFriendCloudStorage({
+                        keyList: ["x" + MAIN_MENU_NUM],
+                        success: res => {
+                            console.log("wx.getFriendCloudStorage success", res);
+                            let data = res.data;
+                            data.sort((a, b) => {
+                                if (a.KVDataList.length == 0 && b.KVDataList.length == 0) {
+                                    return 0;
+                                }
+                                if (a.KVDataList.length == 0) {
+                                    return -1;
+                                }
+                                if (b.KVDataList.length == 0) {
+                                    return 1;
+                                }
+                                return a.KVDataList[0].value - b.KVDataList[0].value;
+                            });
+                            for (let i = 0; i < data.length; i++) {
+                                if (data[i].KVDataList.length != 0 && score < data[i].KVDataList[0].value) {
+                                    this.gameNextRankNode.active = true;
+                                    this.gameNextRankNode.getComponent(cc.Component).init(data[i]);
+                                    break;
+                                }
+                            }
+                        },
+                        fail: res => {
+                            console.log("wx.getFriendCloudStorage fail", res);
+                        },
+                    });
+                }
+            }
+        }
+    },
+
+    gameNextRank2(MAIN_MENU_NUM, score) {
+        this.removeChild();
+        this.loadingLabel.active = false;
+        if (this.CC_WECHATGAME) {
+            if (score == 0) {
+                //取出所有好友数据
+                wx.getFriendCloudStorage({
+                    keyList: ["x" + MAIN_MENU_NUM],
+                    success: res => {
+                        console.log("wx.getFriendCloudStorage success", res);
+                        let data = res.data;
+                        data.sort((a, b) => {
+                            if (a.KVDataList.length == 0 && b.KVDataList.length == 0) {
+                                return 0;
+                            }
+                            if (a.KVDataList.length == 0) {
+                                return -1;
+                            }
+                            if (b.KVDataList.length == 0) {
+                                return 1;
+                            }
+                            return a.KVDataList[0].value - b.KVDataList[0].value;
+                        });
+                        this.gameNextRankData = data;
+                        for (let i = 0; i < data.length; i++) {
+                            if (data[i].KVDataList.length != 0 && score < data[i].KVDataList[0].value) {
+                                this.gameNextRankNode2.active = true;
+                                this.gameNextRankNode2.getComponent(cc.Component).init(data[i]);
+                                break;
+                            }
+                        }
+                    },
+                    fail: res => {
+                        console.log("wx.getFriendCloudStorage fail", res);
+                    },
+                });
+            } else {
+                if (this.gameNextRankData != undefined) {
+                    let data = this.gameNextRankData;
+                    for (let i = 0; i < data.length; i++) {
+                        if (data[i].KVDataList.length != 0 && score < data[i].KVDataList[0].value) {
+                            this.gameNextRankNode2.active = true;
+                            this.gameNextRankNode2.getComponent(cc.Component).init(data[i]);
+                            break;
+                        }
+                    }
+                } else {
+                    //取出所有好友数据
+                    wx.getFriendCloudStorage({
+                        keyList: ["x" + MAIN_MENU_NUM],
+                        success: res => {
+                            console.log("wx.getFriendCloudStorage success", res);
+                            let data = res.data;
+                            data.sort((a, b) => {
+                                if (a.KVDataList.length == 0 && b.KVDataList.length == 0) {
+                                    return 0;
+                                }
+                                if (a.KVDataList.length == 0) {
+                                    return -1;
+                                }
+                                if (b.KVDataList.length == 0) {
+                                    return 1;
+                                }
+                                return a.KVDataList[0].value - b.KVDataList[0].value;
+                            });
+                            for (let i = 0; i < data.length; i++) {
+                                if (data[i].KVDataList.length != 0 && score < data[i].KVDataList[0].value) {
+                                    this.gameNextRankNode2.active = true;
+                                    this.gameNextRankNode2.getComponent(cc.Component).init(data[i]);
+                                    break;
+                                }
+                            }
+                        },
+                        fail: res => {
+                            console.log("wx.getFriendCloudStorage fail", res);
+                        },
+                    });
+                }
+            }
+        }
+    },
+
+    fetchWorldData(worldData, userData) {
+        this.removeChild();
+        this.rankingScrollView.node.active = true;
+        this.loadingLabel.active = false;
+        let data = worldData;
+        for (let i = 0; i < data.length; i++) {
+            let playerInfo = data[i];
+            let item = cc.instantiate(this.prefabRankItem);
+            item.getComponent('RankItem').init(i, playerInfo);
+            this.scrollViewContent.addChild(item);
+        }
+        if (data.length <= 8) {
+            let layout = this.scrollViewContent.getComponent(cc.Layout);
+            layout.resizeMode = cc.Layout.ResizeMode.NONE;
+        }
+        let userItem = cc.instantiate(this.prefabRankItem);
+        userItem.getComponent('RankItem').init(userData.rank, userData);
+        userItem.y = -354;
+        this.node.addChild(userItem, 1, "1000");
     },
 });

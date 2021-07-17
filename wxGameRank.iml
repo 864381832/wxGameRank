@@ -2,7 +2,20 @@
 <module type="WEB_MODULE" version="4">
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
-    <content url="file://$MODULE_DIR$" />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/MainGame2.1" />
+      <excludeFolder url="file://$MODULE_DIR$/MainGame2/build" />
+      <excludeFolder url="file://$MODULE_DIR$/MainGame2/library" />
+      <excludeFolder url="file://$MODULE_DIR$/MainGame2/local" />
+      <excludeFolder url="file://$MODULE_DIR$/MainGame2/temp" />
+      <excludeFolder url="file://$MODULE_DIR$/SubGame2.1" />
+      <excludeFolder url="file://$MODULE_DIR$/SubGame2/build" />
+      <excludeFolder url="file://$MODULE_DIR$/SubGame2/library" />
+      <excludeFolder url="file://$MODULE_DIR$/SubGame2/local" />
+      <excludeFolder url="file://$MODULE_DIR$/SubGame2/temp" />
+      <excludeFolder url="file://$MODULE_DIR$/MainGame2" />
+      <excludeFolder url="file://$MODULE_DIR$/SubGame2" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>

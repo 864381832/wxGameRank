@@ -4,6 +4,7 @@ cc.Class({
     properties: {
         rankingScrollView: cc.ScrollView,
         scrollViewContent: cc.Node,
+        selfRankItem: cc.Node,
         prefabRankItem: cc.Prefab,
         prefabGameOverRank: cc.Prefab,
         gameOverRankLayout: cc.Node,
@@ -87,10 +88,8 @@ cc.Class({
         }
     },
     removeChild() {
-        if (this.node.getChildByName("1000") != null) {
-            this.node.removeChild(this.node.getChildByName("1000"));
-        }
         this.rankingScrollView.node.active = false;
+        this.selfRankItem.active = false;
         this.scrollViewContent.removeAllChildren();
         this.gameOverRankLayout.active = false;
         this.gameOverRankLayout.removeAllChildren();
@@ -128,15 +127,13 @@ cc.Class({
                                 return b.KVDataList[0].value - a.KVDataList[0].value;
                             });
                             for (let i = 0; i < data.length; i++) {
-                                var playerInfo = data[i];
-                                var item = cc.instantiate(this.prefabRankItem);
+                                let playerInfo = data[i];
+                                let item = cc.instantiate(this.prefabRankItem);
                                 item.getComponent('RankItem').init(i, playerInfo);
                                 this.scrollViewContent.addChild(item);
                                 if (data[i].avatarUrl == userData.avatarUrl) {
-                                    let userItem = cc.instantiate(this.prefabRankItem);
-                                    userItem.getComponent('RankItem').init(i, playerInfo);
-                                    userItem.y = -354;
-                                    this.node.addChild(userItem, 1, "1000");
+                                    this.selfRankItem.active = true;
+                                    this.selfRankItem.getComponent('RankItem').init(i, playerInfo);
                                 }
                             }
                             if (data.length <= 8) {
@@ -191,10 +188,8 @@ cc.Class({
                                 item.getComponent('RankItem').init(i, playerInfo);
                                 this.scrollViewContent.addChild(item);
                                 if (data[i].avatarUrl == userData.avatarUrl) {
-                                    let userItem = cc.instantiate(this.prefabRankItem);
-                                    userItem.getComponent('RankItem').init(i, playerInfo);
-                                    userItem.y = -354;
-                                    this.node.addChild(userItem, 1, "1000");
+                                    this.selfRankItem.active = true;
+                                    this.selfRankItem.getComponent('RankItem').init(i, playerInfo);
                                 }
                             }
                             if (data.length <= 8) {
@@ -469,9 +464,7 @@ cc.Class({
             let layout = this.scrollViewContent.getComponent(cc.Layout);
             layout.resizeMode = cc.Layout.ResizeMode.NONE;
         }
-        let userItem = cc.instantiate(this.prefabRankItem);
-        userItem.getComponent('RankItem').init(userData.rank, userData);
-        userItem.y = -354;
-        this.node.addChild(userItem, 1, "1000");
+        this.selfRankItem.active = true;
+        this.selfRankItem.getComponent('RankItem').init(userData.rank, userData);
     },
 });

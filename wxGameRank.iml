@@ -15,6 +15,23 @@
       <excludeFolder url="file://$MODULE_DIR$/SubGame2/temp" />
       <excludeFolder url="file://$MODULE_DIR$/MainGame2" />
       <excludeFolder url="file://$MODULE_DIR$/SubGame2" />
+      <excludeFolder url="file://$MODULE_DIR$/SubGame2.4.5/build" />
+      <excludeFolder url="file://$MODULE_DIR$/SubGame2.4.5/library" />
+      <excludeFolder url="file://$MODULE_DIR$/SubGame2.4.5/local" />
+      <excludeFolder url="file://$MODULE_DIR$/SubGame2.4.5/temp" />
+      <excludeFolder url="file://$MODULE_DIR$/MainGame2.4.5/build" />
+      <excludeFolder url="file://$MODULE_DIR$/MainGame2.4.5/library" />
+      <excludeFolder url="file://$MODULE_DIR$/MainGame2.4.5/local" />
+      <excludeFolder url="file://$MODULE_DIR$/MainGame2.4.5/temp" />
+      <excludeFolder url="file://$MODULE_DIR$/MainGame2.4.5" />
+      <excludeFolder url="file://$MODULE_DIR$/MainGame" />
+      <excludeFolder url="file://$MODULE_DIR$/SubGame2.4.5" />
+      <excludeFolder url="file://$MODULE_DIR$/MainGame2.4.10/build" />
+      <excludeFolder url="file://$MODULE_DIR$/MainGame2.4.10/temp" />
+      <excludeFolder url="file://$MODULE_DIR$/MainGame2.4.10/library" />
+      <excludeFolder url="file://$MODULE_DIR$/SubGame2.4.10/temp" />
+      <excludeFolder url="file://$MODULE_DIR$/SubGame2.4.10/build" />
+      <excludeFolder url="file://$MODULE_DIR$/SubGame2.4.10/library" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
